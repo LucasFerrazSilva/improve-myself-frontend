@@ -6,3 +6,8 @@ mat-nav-list a {
     border-bottom: 1px solid #aaa ;
     height: 30px;
 }
+
+#app-title-anchor {
+    padding: 0; 
+    width: 100%;
+}

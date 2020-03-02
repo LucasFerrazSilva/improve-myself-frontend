@@ -14,7 +14,7 @@ export class MenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.menuItems = [
-      {label: 'Controle Financeiro', url:"#"},
+      {label: 'Controle Financeiro', url:"/controle-financeiro"},
       {label: 'Controle Emocional', url:"#"},
       {label: 'Rotinas', url:"#"},
       {label: 'Lições Aprendidas', url:"#"},
