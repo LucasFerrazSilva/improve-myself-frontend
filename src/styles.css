@@ -2,3 +2,16 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.content-title, #app-title {
+    font-size: 20px;
+    padding: 5px;
+    margin: 0;
+    border-bottom: 1px solid #aaa ;
+    text-align: center;
+    background-color: #fff;
+}
+
+.content-body {
+    margin: 10px;
+}
