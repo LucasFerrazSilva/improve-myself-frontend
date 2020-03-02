@@ -8,19 +8,23 @@ import { AngularMaterialModule } from './angular-material-module';
 import { MenuComponent } from './menu/menu.component';
 import { HomeComponent } from './home/home.component';
 import { FinantialControlComponent } from './finantial-control/finantial-control.component';
+import { ExpensesComponent } from './finantial-control/expenses/expenses.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
     HomeComponent,
-    FinantialControlComponent
+    FinantialControlComponent,
+    ExpensesComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    AngularMaterialModule
+    AngularMaterialModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
