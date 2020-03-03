@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
 const backendUrl = environment.backendUrl;
@@ -11,8 +11,8 @@ export class ExpensesService {
 
   constructor(private http: HttpClient) { }
 
-  get() {
-    return this.http.get(backendUrl + 'expense/');
+  get(params) {
+    return this.http.get(backendUrl + 'expense/', { params });
   }
 
 }
