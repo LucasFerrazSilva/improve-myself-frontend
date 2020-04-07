@@ -15,4 +15,8 @@ export class ExpensesService {
     return this.http.get(backendUrl + 'expense/', { params });
   }
 
+  save(expense) {
+    return this.http.post(backendUrl + 'expense/', expense, {responseType: 'text'});
+  }
+
 }

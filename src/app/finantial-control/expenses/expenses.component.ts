@@ -5,6 +5,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Expense } from './expense';
 import { ExpensesService } from './expenses.service';
 import { MatSort } from '@angular/material/sort';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { ExpenseFormDialogComponent } from './expense-form-dialog/expense-form-dialog.component';
 
 @Component({
   selector: 'app-expenses',
@@ -12,6 +16,13 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./expenses.component.css']
 })
 export class ExpensesComponent implements OnInit, AfterViewInit {
+
+  debounce: Subject<string> = new Subject<string>();
+  
+  filters = [
+    {label: 'Nome', fieldName: 'name', value: ''},
+    {label: 'Valor', fieldName: 'amount', value: ''}
+  ];
   
   dataSource = new MatTableDataSource<Expense>();
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -21,23 +32,32 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
   totalElements = 0;
 
 
-  constructor(private service: ExpensesService) { }
+  constructor(
+    private service: ExpensesService,
+    public dialog: MatDialog
+  ) { }
 
 
   ngOnInit(): void {
-    this._find();
+    this.find();
 
-    this.paginator.page.subscribe(page => this._find(page));
+    this.paginator.page.subscribe(page => this.find(page));
+
+    this.debounce.pipe(debounceTime(500)).subscribe(() => {
+      this.paginator.firstPage();
+      this.find();
+    });
   }
 
   ngAfterViewInit() {
     this.sort.sortChange.subscribe(() => {
       this.paginator.pageIndex = 0;
-      this._find();
+      this.find();
     });
   }
 
-  private _find(page?) {
+  find(page?) {
+    console.log(this.filters);
     const httpParams = this._buildHttpParams(page);
     
     this.service.get(httpParams).subscribe(
@@ -48,6 +68,31 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
         console.log(resp);
       }, 
       err => console.log(err)
+    );
+  }
+
+  openDialog(id = null) {
+    const dialogRef = this.dialog.open(
+      ExpenseFormDialogComponent,
+      {
+        width: '250px',
+        data: {id}
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(
+      result => {
+        if (result) {
+          this.service.save(result).subscribe(
+            response => {
+              console.log(response);
+              this.find();
+            },
+            err => {
+              console.log(err);}
+          );
+        }
+      }
     );
   }
 
@@ -64,6 +109,11 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
     params = params.append('page', pageIndex.toString());
 
     params = params.append('sort', sort + ',' + sortDirection);
+
+    this.filters.forEach(
+      filter => params = params.append(filter.fieldName, filter.value)
+    );
+
 
     return params;
   }

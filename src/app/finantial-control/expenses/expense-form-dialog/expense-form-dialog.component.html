@@ -1,0 +1,11 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="name"/>
+    </mat-form-field>
+
+    <div class="dialog-buttons">
+        <button type="button" mat-stroked-button (click)="cancel()">Cancelar</button>
+        <button mat-stroked-button color="primary">Salvar</button>
+    </div>
+</form>

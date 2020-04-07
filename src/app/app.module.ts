@@ -10,6 +10,9 @@ import { HomeComponent } from './home/home.component';
 import { FinantialControlComponent } from './finantial-control/finantial-control.component';
 import { ExpensesComponent } from './finantial-control/expenses/expenses.component';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
+import { ExpenseFormDialogComponent } from './finantial-control/expenses/expense-form-dialog/expense-form-dialog.component';
+
 
 @NgModule({
   declarations: [
@@ -17,16 +20,22 @@ import { HttpClientModule } from '@angular/common/http';
     MenuComponent,
     HomeComponent,
     FinantialControlComponent,
-    ExpensesComponent
+    ExpensesComponent,
+    ExpenseFormDialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     AngularMaterialModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
+  entryComponents: [
+    ExpenseFormDialogComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
