@@ -78,7 +78,16 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
   }
 
   delete(element) {
-
+    this.service.delete(element.id).subscribe(
+      result => {
+        this.snackBar.open(result.toString(), 'x', { duration: 2000 });
+        this.find();
+      },
+      err => {
+        console.log(err);
+        this.snackBar.open(err.error, 'x', { duration: 2000 });
+      }
+    );
   }
 
   openDialog(id = null) {
