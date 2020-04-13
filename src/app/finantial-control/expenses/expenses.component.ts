@@ -73,6 +73,14 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
     );
   }
 
+  edit(element) {
+    this.openDialog(element.id);
+  }
+
+  delete(element) {
+
+  }
+
   openDialog(id = null) {
     const dialogRef = this.dialog.open(
       ExpenseFormDialogComponent,
