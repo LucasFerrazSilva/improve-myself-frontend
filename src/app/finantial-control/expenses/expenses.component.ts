@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { ExpenseFormDialogComponent } from './expense-form-dialog/expense-form-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-expenses',
@@ -34,7 +35,8 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
 
   constructor(
     private service: ExpensesService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) { }
 
 
@@ -82,14 +84,16 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe(
       result => {
+        console.log(result);
         if (result) {
           this.service.save(result).subscribe(
             response => {
-              console.log(response);
+              this.snackBar.open('Salvo com sucesso', 'x', { duration: 2000 });
               this.find();
             },
             err => {
-              console.log(err);}
+              this.snackBar.open('Erro ao salvar', 'x', { duration: 2000 });
+            }
           );
         }
       }

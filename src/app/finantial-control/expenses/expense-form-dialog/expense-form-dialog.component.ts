@@ -21,7 +21,7 @@ export class ExpenseFormDialogComponent implements OnInit {
     console.log(this.data?.id);
     this.form = this.formBuilder.group({
       name: '',
-      value: ''
+      amount: ''
     });
   }
 

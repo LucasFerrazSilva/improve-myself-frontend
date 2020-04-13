@@ -1,0 +1,7 @@
+.dialog-buttons button {
+    width: 48%;
+}
+
+.dialog-buttons button:first-of-type {
+    margin-right: 4%;
+}
