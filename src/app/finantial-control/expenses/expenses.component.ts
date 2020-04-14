@@ -10,6 +10,7 @@ import { debounceTime } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { ExpenseFormDialogComponent } from './expense-form-dialog/expense-form-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DefaultDialogComponent } from 'src/app/util/default-dialog/default-dialog.component';
 
 @Component({
   selector: 'app-expenses',
@@ -59,17 +60,14 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
   }
 
   find(page?) {
-    console.log(this.filters);
     const httpParams = this._buildHttpParams(page);
     
     this.service.get(httpParams).subscribe(
       resp => {
         this.dataSource.data = resp['content'];
         this.totalElements = resp['totalElements'];
-
-        console.log(resp);
       }, 
-      err => console.log(err)
+      err => this.snackBar.open(err.error, 'x', { duration: 2000 })
     );
   }
 
@@ -78,16 +76,37 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
   }
 
   delete(element) {
-    this.service.delete(element.id).subscribe(
-      result => {
-        this.snackBar.open(result.toString(), 'x', { duration: 2000 });
-        this.find();
-      },
-      err => {
-        console.log(err);
-        this.snackBar.open(err.error, 'x', { duration: 2000 });
+    const dialogRef = this.dialog.open(
+      DefaultDialogComponent,
+      {
+        data: {
+          tittle: 'Confirmar exclusão',
+          message: 'Você tem certeza que deseja excluir esse registro?',
+          cancelButtonText: 'Não',
+          confirmButtonText: 'Sim'
+        }
       }
     );
+
+    dialogRef.afterClosed().subscribe(
+      result => {
+        if(result) {
+          this.service.delete(element.id).subscribe(
+            result => {
+              this.snackBar.open(result.toString(), 'x', { duration: 2000 });
+              this.find();
+            },
+            err => {
+              this.snackBar.open(err.error, 'x', { duration: 2000 });
+            }
+          );
+        }
+      },
+      err => {
+        this.snackBar.open(err, 'x', { duration: 2000 });
+      }
+    );
+    
   }
 
   openDialog(id = null) {
@@ -101,7 +120,6 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe(
       result => {
-        console.log(result);
         if (result) {
           this.service.save(result).subscribe(
             response => {

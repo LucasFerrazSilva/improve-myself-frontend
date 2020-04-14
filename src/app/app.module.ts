@@ -12,6 +12,7 @@ import { ExpensesComponent } from './finantial-control/expenses/expenses.compone
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import { ExpenseFormDialogComponent } from './finantial-control/expenses/expense-form-dialog/expense-form-dialog.component';
+import { DefaultDialogComponent } from './util/default-dialog/default-dialog.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ExpenseFormDialogComponent } from './finantial-control/expenses/expense
     HomeComponent,
     FinantialControlComponent,
     ExpensesComponent,
-    ExpenseFormDialogComponent
+    ExpenseFormDialogComponent,
+    DefaultDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +36,8 @@ import { ExpenseFormDialogComponent } from './finantial-control/expenses/expense
   ],
   providers: [],
   entryComponents: [
-    ExpenseFormDialogComponent
+    ExpenseFormDialogComponent,
+    DefaultDialogComponent
   ],
   bootstrap: [AppComponent]
 })
