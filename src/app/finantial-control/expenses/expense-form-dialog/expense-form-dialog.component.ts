@@ -25,7 +25,8 @@ export class ExpenseFormDialogComponent implements OnInit {
     this.form = this.formBuilder.group({
       id: null,
       name: '',
-      amount: ''
+      amount: '',
+      expenseDate: ''
     });
 
     if(this.data && this.data.id) {
@@ -34,7 +35,8 @@ export class ExpenseFormDialogComponent implements OnInit {
           this.form = this.formBuilder.group({
             id: result.id,
             name: result.name,
-            amount: result.amount
+            amount: result.amount,
+            expenseDate: this._convertToDate(result.expenseDate)
           });
         },
         err => {
@@ -51,6 +53,11 @@ export class ExpenseFormDialogComponent implements OnInit {
 
   onSubmit() {
     this.dialogRef.close(this.form.getRawValue());
+  }
+
+  private _convertToDate(dateAsString) {
+    const splittedDate = dateAsString.split('/');
+    return new Date(splittedDate[2] + '-' + splittedDate[1] + '-' + splittedDate[0] + 't00:00');
   }
 
 }

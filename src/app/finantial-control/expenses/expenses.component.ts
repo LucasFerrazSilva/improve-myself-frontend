@@ -25,6 +25,7 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
     {label: 'Nome', fieldName: 'name', value: ''},
     {label: 'Valor', fieldName: 'amount', value: ''}
   ];
+  filterData = {label: 'Data', fieldName: 'expenseDate', value: null};
   
   dataSource = new MatTableDataSource<Expense>();
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -113,7 +114,7 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(
       ExpenseFormDialogComponent,
       {
-        width: '250px',
+        width: '350px',
         data: {id}
       }
     );
@@ -121,6 +122,7 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(
       result => {
         if (result) {
+          result.expenseDate = result.expenseDate.toLocaleDateString('en-GB');
           this.service.save(result).subscribe(
             response => {
               this.snackBar.open('Salvo com sucesso', 'x', { duration: 2000 });
@@ -153,6 +155,9 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
       filter => params = params.append(filter.fieldName, filter.value)
     );
 
+    params = params.append(this.filterData.fieldName, this.filterData.value?.toLocaleDateString('en-GB'));
+
+    console.log(params);
 
     return params;
   }

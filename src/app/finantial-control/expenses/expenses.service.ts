@@ -18,8 +18,8 @@ export class ExpensesService {
     return this.http.get<Expense>(endpoint + id);
   }
 
-  get(params) {
-    return this.http.get(endpoint, { params });
+  get(params): Observable<Expense> {
+    return this.http.get<Expense>(endpoint, { params });
   }
 
   save(expense) {

@@ -13,6 +13,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import { ExpenseFormDialogComponent } from './finantial-control/expenses/expense-form-dialog/expense-form-dialog.component';
 import { DefaultDialogComponent } from './util/default-dialog/default-dialog.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 
 @NgModule({
@@ -34,7 +36,10 @@ import { DefaultDialogComponent } from './util/default-dialog/default-dialog.com
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    MatDatepickerModule,
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
+  ],
   entryComponents: [
     ExpenseFormDialogComponent,
     DefaultDialogComponent
