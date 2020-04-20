@@ -11,6 +11,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ExpenseFormDialogComponent } from './expense-form-dialog/expense-form-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DefaultDialogComponent } from 'src/app/util/default-dialog/default-dialog.component';
+import { ExpenseCategory } from '../expenses-categories/expense-category';
+import { ExpenseCategoryService } from '../expenses-categories/expense-category.service';
 
 @Component({
   selector: 'app-expenses',
@@ -19,6 +21,8 @@ import { DefaultDialogComponent } from 'src/app/util/default-dialog/default-dial
 })
 export class ExpensesComponent implements OnInit, AfterViewInit {
 
+  categories;
+
   debounce: Subject<string> = new Subject<string>();
   
   filters = [
@@ -26,6 +30,13 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
     {label: 'Valor', fieldName: 'amount', value: ''}
   ];
   filterData = {label: 'Data', fieldName: 'expenseDate', value: null};
+  filterCategory = {label: 'Categoria', fieldName: 'categoryId', value: ''};
+
+  tableFields = [
+    {name: 'name', label: 'Nome'},
+    {name: 'amount', label: 'Valor (R$)'},
+    {name: 'expenseDate', label: 'Data'}
+  ];
   
   dataSource = new MatTableDataSource<Expense>();
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -37,6 +48,7 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
 
   constructor(
     private service: ExpensesService,
+    private categoryService: ExpenseCategoryService,
     public dialog: MatDialog,
     private snackBar: MatSnackBar
   ) { }
@@ -51,6 +63,16 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
       this.paginator.firstPage();
       this.find();
     });
+
+
+    this.categoryService.findAll().subscribe(
+      result => {
+        this.categories = result;
+      },
+      err => {
+        this.snackBar.open('Erro ao buscar categorias', 'x', { duration: 2000 });
+      }
+    );
   }
 
   ngAfterViewInit() {
@@ -123,6 +145,7 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
       result => {
         if (result) {
           result.expenseDate = result.expenseDate.toLocaleDateString('en-GB');
+          result.category = {id: result.category};
           this.service.save(result).subscribe(
             response => {
               this.snackBar.open('Salvo com sucesso', 'x', { duration: 2000 });
@@ -156,9 +179,8 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
     );
 
     params = params.append(this.filterData.fieldName, this.filterData.value?.toLocaleDateString('en-GB'));
-
-    console.log(params);
-
+    params = params.append(this.filterCategory.fieldName, this.filterCategory.value);
+    
     return params;
   }
 

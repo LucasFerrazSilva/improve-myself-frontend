@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ExpensesService } from '../expenses.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ExpenseCategoryService } from '../../expenses-categories/expense-category.service';
 
 @Component({
   selector: 'app-expense-form-dialog',
@@ -12,13 +13,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ExpenseFormDialogComponent implements OnInit {
 
   form: FormGroup;
+  categories;
 
   constructor(
     private dialogRef: MatDialogRef<ExpenseFormDialogComponent>,
     @Inject(MAT_DIALOG_DATA) private data,
     private formBuilder: FormBuilder,
     private service: ExpensesService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private categoryService: ExpenseCategoryService
   ) { }
 
   ngOnInit(): void {
@@ -26,8 +29,18 @@ export class ExpenseFormDialogComponent implements OnInit {
       id: null,
       name: '',
       amount: '',
-      expenseDate: ''
+      expenseDate: '',
+      category: null
     });
+
+    this.categoryService.findAll().subscribe(
+      result => {
+        this.categories = result;
+      },
+      err => {
+        this.snackBar.open('Erro ao buscar categorias', 'x', { duration: 2000 });
+      }
+    );
 
     if(this.data && this.data.id) {
       this.service.findById(this.data.id).subscribe(
@@ -36,7 +49,8 @@ export class ExpenseFormDialogComponent implements OnInit {
             id: result.id,
             name: result.name,
             amount: result.amount,
-            expenseDate: this._convertToDate(result.expenseDate)
+            expenseDate: this._convertToDate(result.expenseDate),
+            category: result.category?.id
           });
         },
         err => {

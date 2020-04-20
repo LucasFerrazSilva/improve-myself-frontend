@@ -18,8 +18,12 @@ export class ExpenseCategoryService {
       return this.http.get<ExpenseCategory>(endpoint + id);
     }
   
-    get(params): Observable<ExpenseCategory> {
-      return this.http.get<ExpenseCategory>(endpoint, { params });
+    get(params) {
+      return this.http.get(endpoint, { params });
+    }
+
+    findAll() {
+      return this.http.get<ExpenseCategory>(endpoint + 'find-all');
     }
   
     save(category) {
