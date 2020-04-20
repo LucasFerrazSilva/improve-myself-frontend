@@ -16,6 +16,7 @@ import { DefaultDialogComponent } from './util/default-dialog/default-dialog.com
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { ExpensesCategoriesComponent } from './finantial-control/expenses-categories/expenses-categories.component';
+import { ExpenseCategoryFormDialogComponent } from './finantial-control/expenses-categories/expense-category-form-dialog/expense-category-form-dialog.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { ExpensesCategoriesComponent } from './finantial-control/expenses-catego
     ExpensesComponent,
     ExpenseFormDialogComponent,
     DefaultDialogComponent,
-    ExpensesCategoriesComponent
+    ExpensesCategoriesComponent,
+    ExpenseCategoryFormDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -44,6 +46,7 @@ import { ExpensesCategoriesComponent } from './finantial-control/expenses-catego
   ],
   entryComponents: [
     ExpenseFormDialogComponent,
+    ExpenseCategoryFormDialogComponent,
     DefaultDialogComponent
   ],
   bootstrap: [AppComponent]

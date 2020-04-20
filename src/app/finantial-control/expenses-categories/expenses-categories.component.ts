@@ -3,13 +3,14 @@ import { Subject } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { ExpenseCategoryService } from './expense-category-service';
+import { ExpenseCategoryService } from './expense-category.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ExpenseCategory } from './expense-category';
 import { debounceTime } from 'rxjs/operators';
 import { DefaultDialogComponent } from 'src/app/util/default-dialog/default-dialog.component';
 import { HttpParams } from '@angular/common/http';
+import { ExpenseCategoryFormDialogComponent } from './expense-category-form-dialog/expense-category-form-dialog.component';
 
 @Component({
   selector: 'app-expenses-categories',
@@ -108,30 +109,29 @@ export class ExpensesCategoriesComponent implements OnInit {
   }
 
   openDialog(id = null) {
-    // const dialogRef = this.dialog.open(
-    //   ExpenseFormDialogComponent,
-    //   {
-    //     width: '350px',
-    //     data: {id}
-    //   }
-    // );
+    const dialogRef = this.dialog.open(
+      ExpenseCategoryFormDialogComponent,
+      {
+        width: '400px',
+        data: {id}
+      }
+    );
 
-    // dialogRef.afterClosed().subscribe(
-    //   result => {
-    //     if (result) {
-    //       result.expenseDate = result.expenseDate.toLocaleDateString('en-GB');
-    //       this.service.save(result).subscribe(
-    //         response => {
-    //           this.snackBar.open('Salvo com sucesso', 'x', { duration: 2000 });
-    //           this.find();
-    //         },
-    //         err => {
-    //           this.snackBar.open('Erro ao salvar', 'x', { duration: 2000 });
-    //         }
-    //       );
-    //     }
-    //   }
-    // );
+    dialogRef.afterClosed().subscribe(
+      result => {
+        if (result) {
+          this.service.save(result).subscribe(
+            response => {
+              this.snackBar.open('Salvo com sucesso', 'x', { duration: 2000 });
+              this.find();
+            },
+            err => {
+              this.snackBar.open('Erro ao salvar', 'x', { duration: 2000 });
+            }
+          );
+        }
+      }
+    );
   }
 
   private _buildHttpParams(page = this.paginator) {
