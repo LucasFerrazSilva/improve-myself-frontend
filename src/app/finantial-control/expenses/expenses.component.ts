@@ -11,7 +11,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ExpenseFormDialogComponent } from './expense-form-dialog/expense-form-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DefaultDialogComponent } from 'src/app/util/default-dialog/default-dialog.component';
-import { ExpenseCategory } from '../expenses-categories/expense-category';
 import { ExpenseCategoryService } from '../expenses-categories/expense-category.service';
 
 @Component({
@@ -63,7 +62,6 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
       this.paginator.firstPage();
       this.find();
     });
-
 
     this.categoryService.findAll().subscribe(
       result => {

@@ -1,0 +1,15 @@
+table {
+    width: 100%;
+}
+
+tr.mat-footer-row, .text-bold{
+    font-weight: bold;
+}
+
+.filters {
+    margin-top: 10px;
+}
+
+.filters mat-form-field {
+    margin-right: 10px;
+}
