@@ -12,6 +12,7 @@ import { ExpenseFormDialogComponent } from './expense-form-dialog/expense-form-d
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DefaultDialogComponent } from 'src/app/util/default-dialog/default-dialog.component';
 import { ExpenseCategoryService } from '../expenses-categories/expense-category.service';
+import { Months } from 'src/app/util/month/months';
 
 @Component({
   selector: 'app-expenses',
@@ -30,6 +31,11 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
   ];
   filterData = {label: 'Data', fieldName: 'expenseDate', value: null};
   filterCategory = {label: 'Categoria', fieldName: 'categoryId', value: ''};
+  filterYear = {label: 'Ano', fieldName: 'expenseDateYear', value: 2020};
+  filterMonth = {label: 'Mês', fieldName: 'expenseDateMonth', value: ''};
+
+  years = [2019, 2020, 2021];
+  months = new Months().values;
 
   tableFields = [
     {name: 'name', label: 'Nome'},
@@ -178,6 +184,10 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
 
     params = params.append(this.filterData.fieldName, this.filterData.value?.toLocaleDateString('en-GB'));
     params = params.append(this.filterCategory.fieldName, this.filterCategory.value);
+    params = params.append(this.filterYear.fieldName, this.filterYear.value?.toString());
+    params = params.append(this.filterMonth.fieldName, (this.filterMonth.value ? this.filterMonth.value : ''));
+
+    console.log(params);
     
     return params;
   }

@@ -22,6 +22,21 @@
             <mat-option *ngFor="let category of categories" [value]="category.id">{{category.name}}</mat-option>
         </mat-select>
     </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>{{filterYear.label}}</mat-label>
+        <mat-select (ngModelChange)="debounce.next()" [(ngModel)]="filterYear.value">
+            <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>{{filterMonth.label}}</mat-label>
+        <mat-select (ngModelChange)="debounce.next()" [(ngModel)]="filterMonth.value">
+            <mat-option></mat-option>
+            <mat-option *ngFor="let month of months" [value]="month.name">{{month.label}}</mat-option>
+        </mat-select>
+    </mat-form-field>
 </div>
 
 <table mat-table [dataSource]="dataSource" matSort>

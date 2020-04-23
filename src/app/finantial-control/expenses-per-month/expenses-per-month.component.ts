@@ -6,6 +6,8 @@ import { ExpensesPerMonth } from './expenses-per-month';
 import { ExpensesPerMonthService } from './expenses-per-month.service';
 import { debounceTime } from 'rxjs/operators';
 import { HttpParams } from '@angular/common/http';
+import { Months } from 'src/app/util/month/months';
+import { MonthWithValue } from './month-with-value';
 
 @Component({
   selector: 'app-expenses-per-month',
@@ -16,20 +18,7 @@ export class ExpensesPerMonthComponent implements OnInit {
 
   debounce: Subject<string> = new Subject<string>();
   
-  months = [
-    {name: 'JANUARY', label: 'Janeiro (R$)', totalValue: 0},
-    {name: 'FEBRUARY', label: 'Fevereiro (R$)', totalValue: 0},
-    {name: 'MARCH', label: 'Março (R$)', totalValue: 0},
-    {name: 'APRIL', label: 'Abril (R$)', totalValue: 0},
-    {name: 'MAY', label: 'Maio (R$)', totalValue: 0},
-    {name: 'JUNE', label: 'Junho (R$)', totalValue: 0},
-    {name: 'JULY', label: 'Julho (R$)', totalValue: 0},
-    {name: 'AUGUST', label: 'Agosto (R$)', totalValue: 0},
-    {name: 'SEPTEMBER', label: 'Setembro (R$)', totalValue: 0},
-    {name: 'OCTOBER', label: 'Outubro (R$)', totalValue: 0},
-    {name: 'NOVEMBER', label: 'Novembro (R$)', totalValue: 0},
-    {name: 'DECEMBER', label: 'Dezembro (R$)', totalValue: 0}
-  ];
+  monthsWithValues: MonthWithValue[] = [];
 
   years = [2019, 2020, 2021];
   filterYear = {label: 'Ano', fieldName: 'year', value: 2020};
@@ -49,11 +38,14 @@ export class ExpensesPerMonthComponent implements OnInit {
   ) {}
 
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
+    this._initMonths();
     this.find();
 
     this.displayedColumns = ['category'];
-    this.months.forEach(month => this.displayedColumns.push(month.name));
+
+    this.monthsWithValues.forEach(monthWithValue => this.displayedColumns.push(monthWithValue.month.name));
+
     this.displayedColumns.push('totalValue');
 
     this.debounce.pipe(debounceTime(500)).subscribe(() => {
@@ -63,7 +55,6 @@ export class ExpensesPerMonthComponent implements OnInit {
 
 
   find() {
-    this._initMonths();
     this.service.list(this.filterYear.value).subscribe(
       resp => {
         this.dataSource.data = resp;
@@ -76,18 +67,27 @@ export class ExpensesPerMonthComponent implements OnInit {
   }
 
   private _setMonthsValues(elements) {
-    this._initMonths();
+    this._resetMonthsValues();
+
     elements.forEach(expensesPerMonth => {
       const values = expensesPerMonth.values;
-      this.months.forEach(month => {
-        month.totalValue += values[month.name];
-        this.yearTotalValue += values[month.name];
+      this.monthsWithValues.forEach(monthWithValues => {
+        monthWithValues.totalValue += values[monthWithValues.month.name];
+
+        this.yearTotalValue += values[monthWithValues.month.name];
+        this.yearTotalValue = Number.parseFloat(this.yearTotalValue.toFixed(2));
       });
     });
   }
 
   private _initMonths() {
-    this.months.forEach(month => month.totalValue = 0);
+    new Months().values.forEach(month => {
+      this.monthsWithValues.push({month: month, totalValue: 0});
+    });
+  }
+
+  private _resetMonthsValues() {
+    this.monthsWithValues.forEach(monthsWithValues => monthsWithValues.totalValue = 0);
 
     this.yearTotalValue = 0;
   }

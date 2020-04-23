@@ -14,10 +14,10 @@
         <td mat-footer-cell *matFooterCellDef>Total</td>
     </ng-container>
 
-    <ng-container *ngFor="let month of months" [matColumnDef]="month.name">
-        <th mat-header-cell *matHeaderCellDef>{{ month.label }}</th>
-        <td mat-cell *matCellDef="let element">{{element.values[month.name]}}</td>
-        <td mat-footer-cell *matFooterCellDef>{{ month.totalValue }}</td>
+    <ng-container *ngFor="let monthWithValue of monthsWithValues" [matColumnDef]="monthWithValue.month.name">
+        <th mat-header-cell *matHeaderCellDef>{{ monthWithValue.month.label }}</th>
+        <td mat-cell *matCellDef="let element">{{element.values[monthWithValue.month.name]}}</td>
+        <td mat-footer-cell *matFooterCellDef>{{ monthWithValue.totalValue }}</td>
     </ng-container>
 
     <ng-container matColumnDef="totalValue">
