@@ -26,7 +26,7 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
   debounce: Subject<string> = new Subject<string>();
   
   filters = [
-    {label: 'Nome', fieldName: 'name', value: ''},
+    {label: 'Descrição', fieldName: 'name', value: ''},
     {label: 'Valor', fieldName: 'amount', value: ''}
   ];
   filterData = {label: 'Data', fieldName: 'expenseDate', value: null};
@@ -38,7 +38,7 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
   months = new Months().values;
 
   tableFields = [
-    {name: 'name', label: 'Nome'},
+    {name: 'name', label: 'Descrição'},
     {name: 'amount', label: 'Valor (R$)'},
     {name: 'expenseDate', label: 'Data'}
   ];
