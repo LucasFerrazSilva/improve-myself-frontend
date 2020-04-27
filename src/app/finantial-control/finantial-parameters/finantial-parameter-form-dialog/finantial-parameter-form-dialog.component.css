@@ -1,0 +1,12 @@
+.dialog-buttons button {
+    width: 48%;
+    margin-left: 4%;
+}
+
+.dialog-buttons button:first-of-type {
+    margin-left: 0;
+}
+
+mat-form-field {
+    width: 100%;
+}
