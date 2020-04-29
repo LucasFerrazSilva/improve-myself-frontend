@@ -19,6 +19,8 @@ import { MenuComponent } from './menu/menu.component';
 import { DefaultDialogComponent } from './util/default-dialog/default-dialog.component';
 import { FinantialParametersComponent } from './finantial-control/finantial-parameters/finantial-parameters.component';
 import { FinantialParameterFormDialogComponent } from './finantial-control/finantial-parameters/finantial-parameter-form-dialog/finantial-parameter-form-dialog.component';
+import { ExpectedExpenseComponent } from './finantial-control/expected-expense/expected-expense.component';
+import { ExpectedExpenseFormDialogComponent } from './finantial-control/expected-expense/expected-expense-form-dialog/expected-expense-form-dialog.component';
 
 
 
@@ -35,7 +37,9 @@ import { FinantialParameterFormDialogComponent } from './finantial-control/finan
     ExpenseCategoryFormDialogComponent,
     ExpensesPerMonthComponent,
     FinantialParametersComponent,
-    FinantialParameterFormDialogComponent
+    FinantialParameterFormDialogComponent,
+    ExpectedExpenseComponent,
+    ExpectedExpenseFormDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -53,6 +57,7 @@ import { FinantialParameterFormDialogComponent } from './finantial-control/finan
   entryComponents: [
     ExpenseFormDialogComponent,
     ExpenseCategoryFormDialogComponent,
+    ExpectedExpenseFormDialogComponent,
     DefaultDialogComponent
   ],
   bootstrap: [AppComponent]
