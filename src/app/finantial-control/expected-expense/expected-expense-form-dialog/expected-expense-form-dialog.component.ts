@@ -1,10 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ExpectedExpenseService } from '../expected-expense.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ExpectedExpenseType } from '../expected-expense-type';
 import { ExpenseCategoryService } from '../../expenses-categories/expense-category.service';
+import { ExpectedExpenseFormula } from '../expected-expense-formula';
 
 @Component({
   selector: 'app-expected-expense-form-dialog',
@@ -14,9 +15,14 @@ import { ExpenseCategoryService } from '../../expenses-categories/expense-catego
 export class ExpectedExpenseFormDialogComponent implements OnInit {
 
   form: FormGroup;
+  formulas: FormArray;
 
   categories;
   types;
+
+  get formFormulas() {
+    return <FormArray>this.form.get("formulas");
+  }
 
   constructor(
     private dialogRef: MatDialogRef<ExpectedExpenseFormDialogComponent>,
@@ -32,7 +38,8 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
       id: null,
       category: null,
       type: null,
-      totalValue: ''
+      totalValue: '',
+      formulas: this.formBuilder.array([this.createFormulasFormGroup()])
     });
 
     this.types = Object.keys(ExpectedExpenseType).filter(k => typeof ExpectedExpenseType[k] === "number");
@@ -53,8 +60,16 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
             id: result.id,
             category: result.category?.id,
             type: result.type,
-            totalValue: result.totalValue
+            totalValue: result.totalValue,
+            formulas: this.formBuilder.array([])
           });
+
+          result.formulas.forEach(formula => {
+              this.formulas = this.form.get('formulas') as FormArray;
+              
+              this.formulas.push(this.createFormulasFormGroup(formula));
+            }
+          );
         },
         err => {
           this.snackBar.open(err.error, 'x', { duration: 2000 });
@@ -64,11 +79,19 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
     }
   }
 
+  createFormulasFormGroup(formula = null): FormGroup {
+    return this.formBuilder.group({
+      id: formula?.id,
+      operation: formula?.operation
+    });
+  }
+
   cancel() {
     this.dialogRef.close();
   }
 
   onSubmit() {
+    console.log(this.form.getRawValue());
     this.dialogRef.close(this.form.getRawValue());
   }
 

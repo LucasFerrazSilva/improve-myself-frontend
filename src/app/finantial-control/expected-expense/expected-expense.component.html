@@ -7,6 +7,14 @@
         <mat-label>{{ filter.label }}</mat-label>
         <input matInput (keyup)="debounce.next()" [(ngModel)]="filter.value"/>
     </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>{{filterCategory.label}}</mat-label>
+        <mat-select (ngModelChange)="debounce.next()" [(ngModel)]="filterCategory.value">
+            <mat-option></mat-option>
+            <mat-option *ngFor="let category of categories" [value]="category.id">{{category.name}}</mat-option>
+        </mat-select>
+    </mat-form-field>
 </div>
 
 <table mat-table [dataSource]="dataSource" matSort>

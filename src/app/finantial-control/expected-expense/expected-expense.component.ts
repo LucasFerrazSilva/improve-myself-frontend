@@ -11,6 +11,7 @@ import { debounceTime } from 'rxjs/operators';
 import { DefaultDialogComponent } from 'src/app/util/default-dialog/default-dialog.component';
 import { HttpParams } from '@angular/common/http';
 import { ExpectedExpenseFormDialogComponent } from './expected-expense-form-dialog/expected-expense-form-dialog.component';
+import { ExpenseCategoryService } from '../expenses-categories/expense-category.service';
 
 @Component({
   selector: 'app-expected-expense',
@@ -21,9 +22,10 @@ export class ExpectedExpenseComponent implements OnInit, AfterViewInit {
   
   debounce: Subject<string> = new Subject<string>();
   
-  filters = [
-    {label: 'Categoria', fieldName: 'category', value: ''}
-  ];
+  filters = [];
+  filterCategory = {label: 'Categoria', fieldName: 'categoryId', value: ''};
+
+  categories;
   
   dataSource = new MatTableDataSource<ExpectedExpense>();
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -36,7 +38,8 @@ export class ExpectedExpenseComponent implements OnInit, AfterViewInit {
   constructor(
     private service: ExpectedExpenseService,
     public dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private categoryService: ExpenseCategoryService
   ) { }
 
   
@@ -49,6 +52,15 @@ export class ExpectedExpenseComponent implements OnInit, AfterViewInit {
       this.paginator.firstPage();
       this.find();
     });
+    
+    this.categoryService.findAll().subscribe(
+      result => {
+        this.categories = result;
+      },
+      err => {
+        this.snackBar.open('Erro ao buscar categorias', 'x', { duration: 2000 });
+      }
+    );
   }
 
   ngAfterViewInit() {
@@ -152,6 +164,8 @@ export class ExpectedExpenseComponent implements OnInit, AfterViewInit {
     this.filters.forEach(
       filter => params = params.append(filter.fieldName, filter.value)
     );
+
+    params = params.append(this.filterCategory.fieldName, (this.filterCategory.value ? this.filterCategory.value : ''));
 
     return params;
   }
