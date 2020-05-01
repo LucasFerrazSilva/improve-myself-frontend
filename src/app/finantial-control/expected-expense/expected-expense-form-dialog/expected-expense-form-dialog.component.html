@@ -24,11 +24,38 @@
 
         <div formArrayName="formulas" *ngFor="let formula of formFormulas.controls; let i = index;">
             <div [formGroupName]="i">
-
+                <mat-divider></mat-divider>
                 <mat-form-field appearance="outline">
-                    <mat-label>Operation</mat-label>
+                    <mat-label>Operação</mat-label>
                     <input matInput formControlName="operation"/>
                 </mat-form-field>
+
+                <div formArrayName="elements" *ngFor="let element of getElement(formula).controls; let ind = index;">
+                    <div [formGroupName]="ind">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Operação Elemento</mat-label>
+                            <input matInput formControlName="operation"/>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Tipo</mat-label>
+                            <mat-select formControlName="type">
+                                <mat-option *ngFor="let t of elementTypes" [value]="t">{{t}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Valor Total Elemento</mat-label>
+                            <input matInput formControlName="totalValue"/>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Parâmetro</mat-label>
+                            <input matInput formControlName="parameter"/>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <mat-divider></mat-divider>
             </div>
         </div>
     </form>

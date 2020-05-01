@@ -6,6 +6,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ExpectedExpenseType } from '../expected-expense-type';
 import { ExpenseCategoryService } from '../../expenses-categories/expense-category.service';
 import { ExpectedExpenseFormula } from '../expected-expense-formula';
+import { group } from '@angular/animations';
+import { ExpectedExpenseFormulaElement } from '../expected-expense-formula-element';
+import { ExpectedExpenseFormulaElementType } from '../expected-expense-formula-element-type';
 
 @Component({
   selector: 'app-expected-expense-form-dialog',
@@ -19,10 +22,7 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
 
   categories;
   types;
-
-  get formFormulas() {
-    return <FormArray>this.form.get("formulas");
-  }
+  elementTypes;
 
   constructor(
     private dialogRef: MatDialogRef<ExpectedExpenseFormDialogComponent>,
@@ -43,6 +43,7 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
     });
 
     this.types = Object.keys(ExpectedExpenseType).filter(k => typeof ExpectedExpenseType[k] === "number");
+    this.elementTypes = Object.keys(ExpectedExpenseFormulaElementType).filter(k => typeof ExpectedExpenseFormulaElementType[k] === "number");
 
     this.categoryService.findAll().subscribe(
       result => {
@@ -56,6 +57,7 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
     if(this.data && this.data.id) {
       this.service.findById(this.data.id).subscribe(
         result => {
+          console.log(result);
           this.form = this.formBuilder.group({
             id: result.id,
             category: result.category?.id,
@@ -70,6 +72,8 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
               this.formulas.push(this.createFormulasFormGroup(formula));
             }
           );
+
+          console.log(this.form);
         },
         err => {
           this.snackBar.open(err.error, 'x', { duration: 2000 });
@@ -79,10 +83,31 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
     }
   }
 
-  createFormulasFormGroup(formula = null): FormGroup {
-    return this.formBuilder.group({
+  createFormulasFormGroup(formula: ExpectedExpenseFormula = null): FormGroup {
+    let group = this.formBuilder.group({
       id: formula?.id,
-      operation: formula?.operation
+      operation: formula?.operation,
+      elements: this.formBuilder.array([])
+    });
+
+    if(formula && formula.elements) {
+      formula.elements.forEach(element => {
+        let elements = group.get('elements') as FormArray;
+
+        elements.push(this.createFormulaElementsFormGroup(element));
+      });
+    }
+
+    return group;
+  }
+
+  createFormulaElementsFormGroup(element: ExpectedExpenseFormulaElement = null): FormGroup {
+    return this.formBuilder.group({
+      id: element?.id,
+      operation: element?.operation,
+      type: element?.type,
+      totalValue: element?.totalValue,
+      parameter: element?.parameter?.name
     });
   }
 
@@ -93,6 +118,16 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
   onSubmit() {
     console.log(this.form.getRawValue());
     this.dialogRef.close(this.form.getRawValue());
+  }
+
+
+
+  get formFormulas() {
+    return <FormArray>this.form.get("formulas");
+  }
+
+  getElement(formula: FormGroup) {
+    return <FormArray>formula.get('elements');
   }
 
 }

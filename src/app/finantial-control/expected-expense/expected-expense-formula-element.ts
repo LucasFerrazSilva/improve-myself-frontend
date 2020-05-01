@@ -1,10 +1,10 @@
-import { ExpectedExpenseType } from './expected-expense-type';
-import { ExpenseCategory } from '../expenses-categories/expense-category';
+import { FinantialParameter } from '../finantial-parameters/finantial-parameter';
+import { ExpectedExpenseFormulaElementType } from './expected-expense-formula-element-type';
 
 export interface ExpectedExpenseFormulaElement {
     id: number;
     operation: string;
-    type: ExpectedExpenseType;
-    value: number;
-    category: ExpenseCategory;
+    type: ExpectedExpenseFormulaElementType;
+    totalValue: number;
+    parameter: FinantialParameter;
 }
