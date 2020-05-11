@@ -124,7 +124,7 @@ export class ExpectedExpenseComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(
       ExpectedExpenseFormDialogComponent,
       {
-        width: '400px',
+        width: '800px',
         data: {id}
       }
     );

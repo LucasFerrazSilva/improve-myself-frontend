@@ -1,7 +1,7 @@
 <h1 class="mat-h1" mat-dialog-tittle>Cadastro de Categoria</h1>
 <div mat-dialog-content>
     <form [formGroup]="form">
-        <mat-form-field appearance="outline">
+        <mat-form-field id="category-field" appearance="outline">
             <mat-label>Categoria</mat-label>
             <mat-select formControlName="category">
                 <mat-option *ngFor="let category of categories" [value]="category.id">
@@ -10,52 +10,54 @@
             </mat-select>
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
+        <mat-form-field id="type-field" appearance="outline">
             <mat-label>Tipo</mat-label>
             <mat-select formControlName="type">
                 <mat-option *ngFor="let t of types" [value]="t">{{t}}</mat-option>
             </mat-select>
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
+        <mat-form-field id="total-value-field" *ngIf="form.controls.type.value == 'VALUE'" appearance="outline">
             <mat-label>Valor Total</mat-label>
             <input matInput formControlName="totalValue"/>
         </mat-form-field>
 
-        <div formArrayName="formulas" *ngFor="let formula of formFormulas.controls; let i = index;">
-            <div [formGroupName]="i">
-                <mat-divider></mat-divider>
-                <mat-form-field appearance="outline">
-                    <mat-label>Operação</mat-label>
-                    <input matInput formControlName="operation"/>
-                </mat-form-field>
+        <div *ngIf="form.controls.type.value == 'FORMULA'" >
+            <div formArrayName="formulas" *ngFor="let formula of formFormulas.controls; let i = index;">
+                <div [formGroupName]="i">
+                    <mat-divider></mat-divider>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Operação</mat-label>
+                        <input matInput formControlName="operation"/>
+                    </mat-form-field>
 
-                <div formArrayName="elements" *ngFor="let element of getElement(formula).controls; let ind = index;">
-                    <div [formGroupName]="ind">
-                        <mat-form-field appearance="outline">
-                            <mat-label>Operação Elemento</mat-label>
-                            <input matInput formControlName="operation"/>
-                        </mat-form-field>
+                    <div formArrayName="elements" *ngFor="let element of getElement(formula).controls; let ind = index;">
+                        <div [formGroupName]="ind">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Operação Elemento</mat-label>
+                                <input matInput formControlName="operation"/>
+                            </mat-form-field>
 
-                        <mat-form-field appearance="outline">
-                            <mat-label>Tipo</mat-label>
-                            <mat-select formControlName="type">
-                                <mat-option *ngFor="let t of elementTypes" [value]="t">{{t}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Tipo</mat-label>
+                                <mat-select formControlName="type">
+                                    <mat-option *ngFor="let t of elementTypes" [value]="t">{{t}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
 
-                        <mat-form-field appearance="outline">
-                            <mat-label>Valor Total Elemento</mat-label>
-                            <input matInput formControlName="totalValue"/>
-                        </mat-form-field>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Valor Total Elemento</mat-label>
+                                <input matInput formControlName="totalValue"/>
+                            </mat-form-field>
 
-                        <mat-form-field appearance="outline">
-                            <mat-label>Parâmetro</mat-label>
-                            <input matInput formControlName="parameter"/>
-                        </mat-form-field>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Parâmetro</mat-label>
+                                <input matInput formControlName="parameter"/>
+                            </mat-form-field>
+                        </div>
                     </div>
+                    <mat-divider></mat-divider>
                 </div>
-                <mat-divider></mat-divider>
             </div>
         </div>
     </form>

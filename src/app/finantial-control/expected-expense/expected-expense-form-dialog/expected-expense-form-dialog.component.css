@@ -10,3 +10,13 @@
 mat-form-field {
     width: 100%;
 }
+
+#category-field {
+    width: 48%;
+    margin-right: 2%;
+}
+
+#type-field {
+    width: 48%;
+    margin-left: 2%;
+}
