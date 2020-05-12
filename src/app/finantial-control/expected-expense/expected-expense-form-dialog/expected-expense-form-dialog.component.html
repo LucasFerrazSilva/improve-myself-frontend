@@ -1,4 +1,4 @@
-<h1 class="mat-h1" mat-dialog-tittle>Cadastro de Categoria</h1>
+<h1 class="mat-h1" mat-dialog-tittle>Cadastro de Gasto Previsto</h1>
 <div mat-dialog-content>
     <form [formGroup]="form">
         <mat-form-field id="category-field" appearance="outline">
@@ -10,12 +10,11 @@
             </mat-select>
         </mat-form-field>
 
-        <mat-form-field id="type-field" appearance="outline">
-            <mat-label>Tipo</mat-label>
-            <mat-select formControlName="type">
-                <mat-option *ngFor="let t of types" [value]="t">{{t}}</mat-option>
-            </mat-select>
-        </mat-form-field>
+        <div id="type-field">
+            <mat-radio-group formControlName="type">
+                <mat-radio-button *ngFor="let t of types" [value]="t">{{t}}</mat-radio-button>
+            </mat-radio-group>
+        </div>
 
         <mat-form-field id="total-value-field" *ngIf="form.controls.type.value == 'VALUE'" appearance="outline">
             <mat-label>Valor Total</mat-label>

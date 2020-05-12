@@ -25,6 +25,15 @@ mat-form-field {
     display: block;
     width: 20%;
     margin: 0 auto;
-    
+
     text-align: center;
+}
+
+#type-field {
+    display: inline;
+    margin: 0 10%;
+}
+
+#type-field mat-radio-button {
+    margin-right: 10px;
 }
