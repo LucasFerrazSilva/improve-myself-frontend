@@ -9,6 +9,7 @@ import { ExpectedExpenseFormula } from '../expected-expense-formula';
 import { group } from '@angular/animations';
 import { ExpectedExpenseFormulaElement } from '../expected-expense-formula-element';
 import { ExpectedExpenseFormulaElementType } from '../expected-expense-formula-element-type';
+import { Operations } from 'src/app/util/operations';
 
 @Component({
   selector: 'app-expected-expense-form-dialog',
@@ -23,6 +24,7 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
   categories;
   types;
   elementTypes;
+  operations;
 
   constructor(
     private dialogRef: MatDialogRef<ExpectedExpenseFormDialogComponent>,
@@ -44,6 +46,7 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
 
     this.types = Object.keys(ExpectedExpenseType).filter(k => typeof ExpectedExpenseType[k] === "number");
     this.elementTypes = Object.keys(ExpectedExpenseFormulaElementType).filter(k => typeof ExpectedExpenseFormulaElementType[k] === "number");
+    this.operations = Object.keys(Operations).filter(k => typeof Operations[k] === "number");
 
     this.categoryService.findAll().subscribe(
       result => {
@@ -127,7 +130,9 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
   }
 
   getElement(formula: FormGroup) {
-    return <FormArray>formula.get('elements');
+    const elements = <FormArray>formula.get('elements');
+
+    return elements;
   }
 
 }

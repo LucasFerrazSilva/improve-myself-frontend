@@ -25,38 +25,40 @@
         <div *ngIf="form.controls.type.value == 'FORMULA'" >
             <div formArrayName="formulas" *ngFor="let formula of formFormulas.controls; let i = index;">
                 <div [formGroupName]="i">
-                    <mat-divider></mat-divider>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Operação</mat-label>
-                        <input matInput formControlName="operation"/>
+                    <mat-form-field appearance="outline" *ngIf="i > 0">
+                        <mat-select formControlName="operation">
+                            <mat-option *ngFor="let o of operations" [value]="o">{{o}}</mat-option>
+                        </mat-select>
                     </mat-form-field>
 
-                    <div formArrayName="elements" *ngFor="let element of getElement(formula).controls; let ind = index;">
-                        <div [formGroupName]="ind">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Operação Elemento</mat-label>
-                                <input matInput formControlName="operation"/>
-                            </mat-form-field>
+                    <mat-card *ngIf="getElement(formula).controls.length > 0">
+                        <div formArrayName="elements" *ngFor="let element of getElement(formula).controls; let ind = index;">
+                            <div [formGroupName]="ind">
+                                <mat-form-field id="element-operation-field" appearance="outline" *ngIf="ind > 0">
+                                    <mat-select formControlName="operation">
+                                        <mat-option *ngFor="let o of operations" [value]="o">{{o}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
 
-                            <mat-form-field appearance="outline">
-                                <mat-label>Tipo</mat-label>
-                                <mat-select formControlName="type">
-                                    <mat-option *ngFor="let t of elementTypes" [value]="t">{{t}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Tipo</mat-label>
+                                    <mat-select formControlName="type">
+                                        <mat-option *ngFor="let t of elementTypes" [value]="t">{{t}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
 
-                            <mat-form-field appearance="outline">
-                                <mat-label>Valor Total Elemento</mat-label>
-                                <input matInput formControlName="totalValue"/>
-                            </mat-form-field>
+                                <mat-form-field appearance="outline" *ngIf="element.controls.type.value == 'VALUE'">
+                                    <mat-label>Valor Total Elemento</mat-label>
+                                    <input matInput formControlName="totalValue"/>
+                                </mat-form-field>
 
-                            <mat-form-field appearance="outline">
-                                <mat-label>Parâmetro</mat-label>
-                                <input matInput formControlName="parameter"/>
-                            </mat-form-field>
+                                <mat-form-field appearance="outline" *ngIf="element.controls.type.value == 'PARAMETER'">
+                                    <mat-label>Parâmetro</mat-label>
+                                    <input matInput formControlName="parameter"/>
+                                </mat-form-field>
+                            </div>
                         </div>
-                    </div>
-                    <mat-divider></mat-divider>
+                    </mat-card>
                 </div>
             </div>
         </div>
