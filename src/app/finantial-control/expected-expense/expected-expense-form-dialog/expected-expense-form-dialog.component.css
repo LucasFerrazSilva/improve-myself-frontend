@@ -29,11 +29,16 @@ mat-form-field {
     text-align: center;
 }
 
-#type-field {
-    display: inline;
-    margin: 0 10%;
+.type-field {
+    display: inline-block;    
+    width: 38%;
+    margin-right: 2%;
 }
 
-#type-field mat-radio-button {
+.type-field mat-radio-button {
     margin-right: 10px;
+}
+
+.element-value-parameter {
+    width: 60%;
 }

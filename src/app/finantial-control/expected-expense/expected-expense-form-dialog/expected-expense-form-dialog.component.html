@@ -10,8 +10,8 @@
             </mat-select>
         </mat-form-field>
 
-        <div id="type-field">
-            <mat-radio-group formControlName="type">
+        <div class="type-field">
+            <mat-radio-group formControlName="type" color="primary">
                 <mat-radio-button *ngFor="let t of types" [value]="t">{{t}}</mat-radio-button>
             </mat-radio-group>
         </div>
@@ -39,24 +39,25 @@
                                     </mat-select>
                                 </mat-form-field>
 
-                                <mat-form-field appearance="outline">
-                                    <mat-label>Tipo</mat-label>
-                                    <mat-select formControlName="type">
-                                        <mat-option *ngFor="let t of elementTypes" [value]="t">{{t}}</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
+                                <div class="type-field">
+                                    <mat-radio-group formControlName="type" color="primary">
+                                        <mat-radio-button *ngFor="let t of elementTypes" [value]="t">{{t}}</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
 
-                                <mat-form-field appearance="outline" *ngIf="element.controls.type.value == 'VALUE'">
+                                <mat-form-field class="element-value-parameter" appearance="outline" *ngIf="element.controls.type.value == 'VALUE'">
                                     <mat-label>Valor Total Elemento</mat-label>
                                     <input matInput formControlName="totalValue"/>
                                 </mat-form-field>
 
-                                <mat-form-field appearance="outline" *ngIf="element.controls.type.value == 'PARAMETER'">
+                                <mat-form-field class="element-value-parameter" appearance="outline" *ngIf="element.controls.type.value == 'PARAMETER'">
                                     <mat-label>Parâmetro</mat-label>
                                     <input matInput formControlName="parameter"/>
                                 </mat-form-field>
                             </div>
                         </div>
+
+                        <button mat-stroked-button (click)="addElement(formula)">Add</button>
                     </mat-card>
                 </div>
             </div>

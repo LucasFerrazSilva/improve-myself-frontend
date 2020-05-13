@@ -75,8 +75,6 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
               this.formulas.push(this.createFormulasFormGroup(formula));
             }
           );
-
-          console.log(this.form);
         },
         err => {
           this.snackBar.open(err.error, 'x', { duration: 2000 });
@@ -107,11 +105,17 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
   createFormulaElementsFormGroup(element: ExpectedExpenseFormulaElement = null): FormGroup {
     return this.formBuilder.group({
       id: element?.id,
-      operation: element?.operation,
-      type: element?.type,
-      totalValue: element?.totalValue,
+      operation: (element ? element.operation : '+'),
+      type: (element ? element.type : 'VALUE'),
+      totalValue: (element ? element.totalValue : 0),
       parameter: element?.parameter?.name
     });
+  }
+
+  addElement(formula) {
+    let elements = formula.get('elements') as FormArray;
+
+    elements.push(this.createFormulaElementsFormGroup());
   }
 
   cancel() {
