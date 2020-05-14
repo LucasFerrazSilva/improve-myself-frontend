@@ -133,6 +133,15 @@ export class ExpectedExpenseComponent implements OnInit, AfterViewInit {
       result => {
         if (result) {
           result.category = {id: result.category};
+          
+          result.formulas.forEach(formula => {
+            formula.elements.forEach(element => {
+              if(element.type == 'PARAMETER') {
+                element.parameter = {id: element.parameter};
+              }
+            });
+          });
+
           this.service.save(result).subscribe(
             response => {
               this.snackBar.open('Salvo com sucesso', 'x', { duration: 2000 });

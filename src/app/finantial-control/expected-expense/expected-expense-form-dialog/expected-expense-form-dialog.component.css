@@ -42,3 +42,8 @@ mat-form-field {
 .element-value-parameter {
     width: 60%;
 }
+
+.button-add-element {
+    display: block;
+    margin: 0 auto;
+}

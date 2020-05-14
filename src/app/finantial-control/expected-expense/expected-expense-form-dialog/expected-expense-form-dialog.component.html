@@ -52,12 +52,16 @@
 
                                 <mat-form-field class="element-value-parameter" appearance="outline" *ngIf="element.controls.type.value == 'PARAMETER'">
                                     <mat-label>Parâmetro</mat-label>
-                                    <input matInput formControlName="parameter"/>
+                                    <mat-select formControlName="parameter">
+                                        <mat-option *ngFor="let parameter of parameters" [value]="parameter.id">
+                                            {{parameter.name + ' (R$' + parameter.value + ')'}}
+                                        </mat-option>
+                                    </mat-select>
                                 </mat-form-field>
                             </div>
                         </div>
 
-                        <button mat-stroked-button (click)="addElement(formula)">Add</button>
+                        <button class="button-add-element" mat-stroked-button (click)="addElement(formula)">Add</button>
                     </mat-card>
                 </div>
             </div>

@@ -10,6 +10,7 @@ import { group } from '@angular/animations';
 import { ExpectedExpenseFormulaElement } from '../expected-expense-formula-element';
 import { ExpectedExpenseFormulaElementType } from '../expected-expense-formula-element-type';
 import { Operations } from 'src/app/util/operations';
+import { FinantialParametersService } from '../../finantial-parameters/finantial-parameters.service';
 
 @Component({
   selector: 'app-expected-expense-form-dialog',
@@ -25,6 +26,7 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
   types;
   elementTypes;
   operations;
+  parameters;
 
   constructor(
     private dialogRef: MatDialogRef<ExpectedExpenseFormDialogComponent>,
@@ -32,7 +34,8 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
     private formBuilder: FormBuilder,
     private service: ExpectedExpenseService,
     private snackBar: MatSnackBar,
-    private categoryService: ExpenseCategoryService
+    private categoryService: ExpenseCategoryService,
+    private parameterService: FinantialParametersService
   ) { }
 
   ngOnInit(): void {
@@ -54,6 +57,16 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
       },
       err => {
         this.snackBar.open('Erro ao buscar categorias', 'x', { duration: 2000 });
+      }
+    );
+
+    this.parameterService.findAll().subscribe(
+      result => {
+        this.parameters = result;
+        console.log(this.parameters);
+      },
+      err => {
+        this.snackBar.open('Erro ao buscar parâmetros', 'x', { duration: 2000 });
       }
     );
 
@@ -108,7 +121,7 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
       operation: (element ? element.operation : '+'),
       type: (element ? element.type : 'VALUE'),
       totalValue: (element ? element.totalValue : 0),
-      parameter: element?.parameter?.name
+      parameter: element?.parameter?.id
     });
   }
 
