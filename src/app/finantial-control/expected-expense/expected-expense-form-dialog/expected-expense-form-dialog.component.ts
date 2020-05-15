@@ -63,7 +63,6 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
     this.parameterService.findAll().subscribe(
       result => {
         this.parameters = result;
-        console.log(this.parameters);
       },
       err => {
         this.snackBar.open('Erro ao buscar parâmetros', 'x', { duration: 2000 });
@@ -73,7 +72,6 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
     if(this.data && this.data.id) {
       this.service.findById(this.data.id).subscribe(
         result => {
-          console.log(result);
           this.form = this.formBuilder.group({
             id: result.id,
             category: result.category?.id,
@@ -104,12 +102,17 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
       elements: this.formBuilder.array([])
     });
 
-    if(formula && formula.elements) {
-      formula.elements.forEach(element => {
-        let elements = group.get('elements') as FormArray;
+    let elements = group.get('elements') as FormArray;
 
+    console.log(formula);
+
+    if(formula?.elements?.length > 0) {
+      formula.elements.forEach(element => {
         elements.push(this.createFormulaElementsFormGroup(element));
       });
+    } else {
+      elements.push(this.createFormulaElementsFormGroup());
+      elements.push(this.createFormulaElementsFormGroup());
     }
 
     return group;
@@ -131,12 +134,17 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
     elements.push(this.createFormulaElementsFormGroup());
   }
 
+  deleteElement(formula, elementIndex) {
+    let elements = formula.get('elements') as FormArray;
+
+    elements.removeAt(elementIndex);
+  }
+
   cancel() {
     this.dialogRef.close();
   }
 
   onSubmit() {
-    console.log(this.form.getRawValue());
     this.dialogRef.close(this.form.getRawValue());
   }
 

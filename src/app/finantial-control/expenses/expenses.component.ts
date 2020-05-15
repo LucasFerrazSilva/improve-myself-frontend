@@ -186,9 +186,7 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
     params = params.append(this.filterCategory.fieldName, this.filterCategory.value);
     params = params.append(this.filterYear.fieldName, this.filterYear.value?.toString());
     params = params.append(this.filterMonth.fieldName, (this.filterMonth.value ? this.filterMonth.value : ''));
-
-    console.log(params);
-    
+        
     return params;
   }
 

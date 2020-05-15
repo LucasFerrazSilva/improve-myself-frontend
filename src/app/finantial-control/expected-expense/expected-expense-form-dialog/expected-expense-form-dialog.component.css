@@ -21,7 +21,7 @@ mat-form-field {
     margin-left: 2%;
 }
 
-#element-operation-field {
+.element-operation-field, .select-formula-operation {
     display: block;
     width: 20%;
     margin: 0 auto;
@@ -40,10 +40,15 @@ mat-form-field {
 }
 
 .element-value-parameter {
-    width: 60%;
+    width: 55%;
 }
 
 .button-add-element {
     display: block;
     margin: 0 auto;
+}
+
+.button-remove-element {
+    margin-left: 1%;
+    width: 4%;
 }
