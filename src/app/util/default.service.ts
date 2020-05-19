@@ -29,7 +29,7 @@ export class DefaultService<T> {
     }
 
     findAll() {
-        return this.http.get<T>(this.endpoint + 'find-all');
+        return this.http.get<T[]>(this.endpoint + 'find-all');
     }
 
 }

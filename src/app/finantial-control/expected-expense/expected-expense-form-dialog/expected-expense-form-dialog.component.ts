@@ -11,6 +11,7 @@ import { ExpectedExpenseFormulaElement } from '../expected-expense-formula-eleme
 import { ExpectedExpenseFormulaElementType } from '../expected-expense-formula-element-type';
 import { Operations } from 'src/app/util/operations';
 import { FinantialParametersService } from '../../finantial-parameters/finantial-parameters.service';
+import { FinantialParameter } from '../../finantial-parameters/finantial-parameter';
 
 @Component({
   selector: 'app-expected-expense-form-dialog',
@@ -26,7 +27,10 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
   types;
   elementTypes;
   operations;
-  parameters;
+  parameters: FinantialParameter[];
+
+  formulaLabel = 'a';
+  formulaTotalValue = 0;
 
   constructor(
     private dialogRef: MatDialogRef<ExpectedExpenseFormDialogComponent>,
@@ -86,6 +90,8 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
               this.formulas.push(this.createFormulasFormGroup(formula));
             }
           );
+
+          this.buildFormulaLabelAndTotalValue();
         },
         err => {
           this.snackBar.open(err.error, 'x', { duration: 2000 });
@@ -98,13 +104,11 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
   createFormulasFormGroup(formula: ExpectedExpenseFormula = null): FormGroup {
     let group = this.formBuilder.group({
       id: formula?.id,
-      operation: formula?.operation,
+      operation: (formula ? formula?.operation : '+'),
       elements: this.formBuilder.array([])
     });
 
     let elements = group.get('elements') as FormArray;
-
-    console.log(formula);
 
     if(formula?.elements?.length > 0) {
       formula.elements.forEach(element => {
@@ -126,6 +130,18 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
       totalValue: (element ? element.totalValue : 0),
       parameter: element?.parameter?.id
     });
+  }
+
+  addFormula() {
+    const formulas = this.form.get('formulas') as FormArray;
+
+    formulas.push(this.createFormulasFormGroup());
+  }
+
+  removeFormula(formulaIndex) {
+    const formulas = this.form.get('formulas') as FormArray;
+
+    formulas.removeAt(formulaIndex);
   }
 
   addElement(formula) {
@@ -158,6 +174,68 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
     const elements = <FormArray>formula.get('elements');
 
     return elements;
+  }
+
+  buildFormulaLabelAndTotalValue() {
+    this.formulaLabel = '';
+
+    if(this.form && this.form.get('formulas')) {
+      const formulas = this.form.get('formulas') as FormArray;
+
+      let formulaIndex = 0;
+      this.formulaTotalValue = 0;
+
+      formulas.value.forEach(formula => {
+        if(formulaIndex > 0)
+          this.formulaLabel += formula.operation + ' ';
+          
+        this.formulaLabel += '(';
+
+        let elementIndex = 0;
+
+        let elementsTotalValue = 0;
+
+        formula.elements.forEach(element => {
+          let elementOperation = '+';
+
+          if(elementIndex > 0) {
+            this.formulaLabel += ' ' + element.operation + ' ';
+            elementOperation = element.operation;
+          }
+
+          const elementValue = (element.type == 'VALUE' ? element.totalValue : this.parameters.find(p => p.id == element.parameter).value);
+
+          this.formulaLabel += elementValue;
+
+          switch(elementOperation) {
+            case '+': elementsTotalValue += parseFloat(elementValue); break;
+            case '-': elementsTotalValue -= elementValue; break;
+            case '/': elementsTotalValue /= elementValue; break;
+            case '*': elementsTotalValue *= elementValue; break;
+          }
+
+          elementIndex++;
+        });
+
+        this.formulaLabel += ') ';
+
+        let operation = '+';
+
+        if(formulaIndex > 0)
+          operation = formula.operation;
+
+        switch(operation) {
+          case '+': this.formulaTotalValue = this.formulaTotalValue + elementsTotalValue; break;
+          case '-': this.formulaTotalValue -= elementsTotalValue; break;
+          case '/': this.formulaTotalValue /= elementsTotalValue; break;
+          case '*': this.formulaTotalValue *= elementsTotalValue; break;
+        }
+
+        this.formulaTotalValue = Number.parseFloat(this.formulaTotalValue.toFixed(2));
+
+        formulaIndex++;
+      });
+    }
   }
 
 }

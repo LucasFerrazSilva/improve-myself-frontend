@@ -16,9 +16,11 @@ mat-form-field {
     margin-right: 2%;
 }
 
-#type-field {
+#top-type-field {
+    display: inline-block;  
     width: 48%;
     margin-left: 2%;
+    text-align: center;
 }
 
 .element-operation-field, .select-formula-operation {
@@ -35,8 +37,8 @@ mat-form-field {
     margin-right: 2%;
 }
 
-.type-field mat-radio-button {
-    margin-right: 10px;
+.type-field mat-radio-button, #top-type-field mat-radio-button {
+    margin-right: 20px;
 }
 
 .element-value-parameter {
@@ -51,4 +53,22 @@ mat-form-field {
 .button-remove-element {
     margin-left: 1%;
     width: 4%;
+}
+
+.button-add-formula {
+    display: block;
+    margin: 10px auto;
+}
+
+.button-remove-formula {
+    float: right;
+    margin-bottom: 10px;
+}
+
+.elements {
+    clear: both;
+}
+
+.formula-result, .div-refresh-formula-result {
+   text-align: center;
 }

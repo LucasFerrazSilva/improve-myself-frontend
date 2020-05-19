@@ -10,7 +10,7 @@
             </mat-select>
         </mat-form-field>
 
-        <div class="type-field">
+        <div id="top-type-field">
             <mat-radio-group formControlName="type" color="primary">
                 <mat-radio-button *ngFor="let t of types" [value]="t">{{t}}</mat-radio-button>
             </mat-radio-group>
@@ -31,7 +31,9 @@
                     </mat-form-field>
 
                     <mat-card>
-                        <div formArrayName="elements" *ngFor="let element of getElement(formula).controls; let ind = index;">
+                        <button class="button-remove-formula" mat-icon-button color="warn" title="Remove a fórmula" (click)="removeFormula(i)"><mat-icon>clear</mat-icon></button>
+
+                        <div class="elements" formArrayName="elements" *ngFor="let element of getElement(formula).controls; let ind = index;">
                             <div [formGroupName]="ind">
                                 <mat-form-field class="element-operation-field" appearance="outline" *ngIf="ind > 0">
                                     <mat-select formControlName="operation">
@@ -63,9 +65,19 @@
                             </div>
                         </div>
 
-                        <button class="button-add-element" mat-stroked-button (click)="addElement(formula)">Add</button>
+                        <button class="button-add-element" mat-stroked-button (click)="addElement(formula)">Adicionar Elemento</button>
                     </mat-card>
                 </div>
+            </div>
+
+            <button class="button-add-formula" mat-stroked-button (click)="addFormula()">Adicionar Fórmula</button>
+
+            <mat-divider></mat-divider>
+
+            <p class="formula-result">Fórmula: {{formulaLabel}}</p>
+            <p class="formula-result">Valor: {{formulaTotalValue}}</p>
+            <div class="div-refresh-formula-result">
+                <button mat-icon-button class="button-refresh-formula-result" (click)="buildFormulaLabelAndTotalValue()"><mat-icon>refresh</mat-icon></button>
             </div>
         </div>
     </form>
