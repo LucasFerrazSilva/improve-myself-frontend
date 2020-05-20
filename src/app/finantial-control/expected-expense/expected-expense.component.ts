@@ -12,6 +12,9 @@ import { DefaultDialogComponent } from 'src/app/util/default-dialog/default-dial
 import { HttpParams } from '@angular/common/http';
 import { ExpectedExpenseFormDialogComponent } from './expected-expense-form-dialog/expected-expense-form-dialog.component';
 import { ExpenseCategoryService } from '../expenses-categories/expense-category.service';
+import { ExpenseCategory } from '../expenses-categories/expense-category';
+import { FinantialParametersService } from '../finantial-parameters/finantial-parameters.service';
+import { FinantialParameter } from '../finantial-parameters/finantial-parameter';
 
 @Component({
   selector: 'app-expected-expense',
@@ -25,7 +28,8 @@ export class ExpectedExpenseComponent implements OnInit, AfterViewInit {
   filters = [];
   filterCategory = {label: 'Categoria', fieldName: 'categoryId', value: ''};
 
-  categories;
+  categories: ExpenseCategory[];
+  parameters: FinantialParameter[];
   
   dataSource = new MatTableDataSource<ExpectedExpense>();
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -39,7 +43,8 @@ export class ExpectedExpenseComponent implements OnInit, AfterViewInit {
     private service: ExpectedExpenseService,
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private categoryService: ExpenseCategoryService
+    private categoryService: ExpenseCategoryService,
+    private parameterService: FinantialParametersService
   ) { }
 
   
@@ -59,6 +64,15 @@ export class ExpectedExpenseComponent implements OnInit, AfterViewInit {
       },
       err => {
         this.snackBar.open('Erro ao buscar categorias', 'x', { duration: 2000 });
+      }
+    );
+
+    this.parameterService.findAll().subscribe(
+      result => {
+        this.parameters = result;
+      },
+      err => {
+        this.snackBar.open('Erro ao buscar parâmetros', 'x', { duration: 2000 });
       }
     );
   }
@@ -132,15 +146,20 @@ export class ExpectedExpenseComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(
       result => {
         if (result) {
-          result.category = {id: result.category};
+          const category = this.categories.find(category => category.id == result.category);
+
+          result.category = category;
           
           result.formulas.forEach(formula => {
             formula.elements.forEach(element => {
               if(element.type == 'PARAMETER') {
-                element.parameter = {id: element.parameter};
+                const parameter = this.parameters.find(parameter => parameter.id == element.parameter);
+                element.parameter = parameter;
               }
             });
           });
+
+          console.log(result);
 
           this.service.save(result).subscribe(
             response => {
