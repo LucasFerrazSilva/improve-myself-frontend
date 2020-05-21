@@ -10,6 +10,15 @@
             </mat-select>
         </mat-form-field>
 
+        <mat-form-field id="period-field" appearance="outline">
+            <mat-label>Período</mat-label>
+            <mat-select formControlName="period">
+                <mat-option *ngFor="let period of periods" [value]="period">
+                    {{period}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
         <div id="top-type-field">
             <mat-radio-group formControlName="type" color="primary">
                 <mat-radio-button *ngFor="let t of types" [value]="t">{{t}}</mat-radio-button>

@@ -12,6 +12,7 @@ import { ExpectedExpenseFormulaElementType } from '../expected-expense-formula-e
 import { Operations } from 'src/app/util/operations';
 import { FinantialParametersService } from '../../finantial-parameters/finantial-parameters.service';
 import { FinantialParameter } from '../../finantial-parameters/finantial-parameter';
+import { ExpectedExpensePeriod } from '../expected-expense-period';
 
 @Component({
   selector: 'app-expected-expense-form-dialog',
@@ -25,6 +26,7 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
 
   categories;
   types;
+  periods;
   elementTypes;
   operations;
   parameters: FinantialParameter[];
@@ -46,12 +48,14 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
     this.form = this.formBuilder.group({
       id: null,
       category: null,
+      period: null,
       type: null,
       totalValue: '',
       formulas: this.formBuilder.array([this.createFormulasFormGroup()])
     });
 
     this.types = Object.keys(ExpectedExpenseType).filter(k => typeof ExpectedExpenseType[k] === "number");
+    this.periods = Object.keys(ExpectedExpensePeriod).filter(k => typeof ExpectedExpensePeriod[k] === "number");
     this.elementTypes = Object.keys(ExpectedExpenseFormulaElementType).filter(k => typeof ExpectedExpenseFormulaElementType[k] === "number");
     this.operations = Object.keys(Operations).filter(k => typeof Operations[k] === "number");
 
@@ -79,6 +83,7 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
           this.form = this.formBuilder.group({
             id: result.id,
             category: result.category?.id,
+            period: result.period,
             type: result.type,
             totalValue: result.totalValue,
             formulas: this.formBuilder.array([])
@@ -178,6 +183,8 @@ export class ExpectedExpenseFormDialogComponent implements OnInit {
 
   buildFormulaLabelAndTotalValue() {
     this.formulaLabel = '';
+
+    for(let i = 0; i < 10000 && !this.parameters; i++);
 
     if(this.form && this.form.get('formulas')) {
       const formulas = this.form.get('formulas') as FormArray;
