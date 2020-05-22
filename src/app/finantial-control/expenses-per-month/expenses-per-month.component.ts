@@ -60,10 +60,16 @@ export class ExpensesPerMonthComponent implements OnInit {
         this.dataSource.data = resp;
         this.totalElements = resp.length;
 
+        console.log(resp);
+
         this._setMonthsValues(resp);        
       }, 
       err => this.snackBar.open(err.error, 'x', { duration: 2000 })
     );
+  }
+
+  getColor(element, monthWithValue) {
+    return (element.values[monthWithValue.month.name] <= element.expectedValuePerMonth ? 'green' : 'red');
   }
 
   private _setMonthsValues(elements) {

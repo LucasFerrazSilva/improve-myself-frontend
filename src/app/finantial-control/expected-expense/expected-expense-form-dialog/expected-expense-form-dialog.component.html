@@ -65,7 +65,7 @@
                                     <mat-label>Parâmetro</mat-label>
                                     <mat-select formControlName="parameter">
                                         <mat-option *ngFor="let parameter of parameters" [value]="parameter.id">
-                                            {{parameter.name + ' (R$' + parameter.value + ')'}}
+                                            {{parameter.name + ' (R$ ' + parameter.value + ')'}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
@@ -84,7 +84,7 @@
             <mat-divider></mat-divider>
 
             <p class="formula-result">Fórmula: {{formulaLabel}}</p>
-            <p class="formula-result">Valor: {{formulaTotalValue}}</p>
+            <p class="formula-result">Total: R$ {{formulaTotalValue}}</p>
             <div class="div-refresh-formula-result">
                 <button mat-icon-button class="button-refresh-formula-result" (click)="buildFormulaLabelAndTotalValue()"><mat-icon>refresh</mat-icon></button>
             </div>
