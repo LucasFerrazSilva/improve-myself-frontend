@@ -21,6 +21,8 @@ import { FinantialParametersComponent } from './finantial-control/finantial-para
 import { FinantialParameterFormDialogComponent } from './finantial-control/finantial-parameters/finantial-parameter-form-dialog/finantial-parameter-form-dialog.component';
 import { ExpectedExpenseComponent } from './finantial-control/expected-expense/expected-expense.component';
 import { ExpectedExpenseFormDialogComponent } from './finantial-control/expected-expense/expected-expense-form-dialog/expected-expense-form-dialog.component';
+import { AccountsComponent } from './finantial-control/accounts/accounts.component';
+import { AccountFormDialogComponent } from './finantial-control/accounts/account-form-dialog/account-form-dialog.component';
 
 
 
@@ -39,7 +41,9 @@ import { ExpectedExpenseFormDialogComponent } from './finantial-control/expected
     FinantialParametersComponent,
     FinantialParameterFormDialogComponent,
     ExpectedExpenseComponent,
-    ExpectedExpenseFormDialogComponent
+    ExpectedExpenseFormDialogComponent,
+    AccountsComponent,
+    AccountFormDialogComponent
   ],
   imports: [
     BrowserModule,
