@@ -1,0 +1,18 @@
+<h1 class="mat-h1" mat-dialog-tittle>Cadastro de Contas</h1>
+<div mat-dialog-content>
+    <form [formGroup]="form">
+        <mat-form-field appearance="outline">
+            <mat-label>Nome</mat-label>
+            <input matInput formControlName="name"/>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Valor</mat-label>
+            <input matInput formControlName="amount"/>
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions class="dialog-buttons">
+    <button type="button" mat-stroked-button (click)="cancel()">Cancelar</button>
+    <button type="button" mat-stroked-button color="primary" (click)="onSubmit()">Salvar</button>
+</div>

@@ -23,6 +23,8 @@ import { ExpectedExpenseComponent } from './finantial-control/expected-expense/e
 import { ExpectedExpenseFormDialogComponent } from './finantial-control/expected-expense/expected-expense-form-dialog/expected-expense-form-dialog.component';
 import { AccountsComponent } from './finantial-control/accounts/accounts.component';
 import { AccountFormDialogComponent } from './finantial-control/accounts/account-form-dialog/account-form-dialog.component';
+import { InvestmentsComponent } from './finantial-control/investments/investments.component';
+import { InvestmentFormDialogComponent } from './finantial-control/investments/investment-form-dialog/investment-form-dialog.component';
 
 
 
@@ -43,7 +45,9 @@ import { AccountFormDialogComponent } from './finantial-control/accounts/account
     ExpectedExpenseComponent,
     ExpectedExpenseFormDialogComponent,
     AccountsComponent,
-    AccountFormDialogComponent
+    AccountFormDialogComponent,
+    InvestmentsComponent,
+    InvestmentFormDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +66,9 @@ import { AccountFormDialogComponent } from './finantial-control/accounts/account
     ExpenseFormDialogComponent,
     ExpenseCategoryFormDialogComponent,
     ExpectedExpenseFormDialogComponent,
-    DefaultDialogComponent
+    DefaultDialogComponent,
+    AccountFormDialogComponent,
+    InvestmentFormDialogComponent
   ],
   bootstrap: [AppComponent]
 })
