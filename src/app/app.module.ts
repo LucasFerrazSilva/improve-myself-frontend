@@ -25,6 +25,7 @@ import { AccountsComponent } from './finantial-control/accounts/accounts.compone
 import { AccountFormDialogComponent } from './finantial-control/accounts/account-form-dialog/account-form-dialog.component';
 import { InvestmentsComponent } from './finantial-control/investments/investments.component';
 import { InvestmentFormDialogComponent } from './finantial-control/investments/investment-form-dialog/investment-form-dialog.component';
+import { InvestmentDetailsComponent } from './finantial-control/investments/investment-details/investment-details.component';
 
 
 
@@ -47,7 +48,8 @@ import { InvestmentFormDialogComponent } from './finantial-control/investments/i
     AccountsComponent,
     AccountFormDialogComponent,
     InvestmentsComponent,
-    InvestmentFormDialogComponent
+    InvestmentFormDialogComponent,
+    InvestmentDetailsComponent
   ],
   imports: [
     BrowserModule,
