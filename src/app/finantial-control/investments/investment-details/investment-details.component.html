@@ -1,1 +1,23 @@
-<p>investment-details works!</p>
+<h1 class="mat-h1 content-title">Controle Financeiro / Investimentos / Detalhe</h1>
+
+<mat-card class="content-body">
+    <div class="investment-header-field">
+        <sub>Investimento</sub>
+        <p>{{investment.name}}</p>
+    </div>
+
+    <div class="investment-header-field">
+        <sub>Total</sub>
+        <p>{{investment.amount}}</p>
+    </div>
+
+    <div class="investment-header-field">
+        <sub>Retorno Previsto</sub>
+        <p>{{investment.expectedIncome}}</p>
+    </div>
+
+    <div class="investment-header-field">
+        <sub>Investimento Mensal</sub>
+        <p>{{investment.monthlyInvestment}}</p>
+    </div>
+</mat-card>

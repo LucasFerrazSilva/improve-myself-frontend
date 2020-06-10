@@ -20,6 +20,16 @@
         <td mat-cell *matCellDef="let element">{{element.amount}}</td>
     </ng-container>
 
+    <ng-container matColumnDef="expectedIncome">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Retorno Previsto</th>
+        <td mat-cell *matCellDef="let element">{{element.expectedIncome}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="monthlyInvestment">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Investimento Mensal</th>
+        <td mat-cell *matCellDef="let element">{{element.monthlyInvestment}}</td>
+    </ng-container>
+
     <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Ações</th>
         <td mat-cell *matCellDef="let element">
@@ -28,8 +38,8 @@
         </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="['name', 'amount', 'actions']"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['name', 'amount', 'actions']"></tr>
+    <tr mat-header-row *matHeaderRowDef="['name', 'amount', 'expectedIncome', 'monthlyInvestment', 'actions']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['name', 'amount', 'expectedIncome', 'monthlyInvestment', 'actions']"></tr>
 </table>
 
 <mat-paginator [pageSizeOptions]="[defaultPageSize, 10, 20]" [length]="totalElements" showFirstLastButtons></mat-paginator>
