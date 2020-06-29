@@ -1,23 +1,41 @@
 <h1 class="mat-h1 content-title">Controle Financeiro / Investimentos / Detalhe</h1>
 
 <mat-card class="content-body">
-    <div class="investment-header-field">
-        <sub>Investimento</sub>
-        <p>{{investment.name}}</p>
+    <div id="investment-header">
+        <div class="investment-header-field">
+            <sub>Investimento</sub>
+            <p>{{investment.name}}</p>
+        </div>
+
+        <div class="investment-header-field">
+            <sub>Total</sub>
+            <p>{{investment.amount}}</p>
+        </div>
+
+        <div class="investment-header-field">
+            <sub>Retorno Previsto</sub>
+            <p>{{investment.expectedIncome}}</p>
+        </div>
+
+        <div class="investment-header-field">
+            <sub>Investimento Mensal</sub>
+            <p>{{investment.monthlyInvestment}}</p>
+        </div>
     </div>
 
-    <div class="investment-header-field">
-        <sub>Total</sub>
-        <p>{{investment.amount}}</p>
-    </div>
 
-    <div class="investment-header-field">
-        <sub>Retorno Previsto</sub>
-        <p>{{investment.expectedIncome}}</p>
-    </div>
-
-    <div class="investment-header-field">
-        <sub>Investimento Mensal</sub>
-        <p>{{investment.monthlyInvestment}}</p>
+    <div id="investment-tabs">
+        <mat-tab-group>
+            <mat-tab label="Histórico">
+                <div class="mat-tab-content">
+                    <app-investment-detail-history></app-investment-detail-history>
+                </div>
+            </mat-tab>
+            <mat-tab label="Previsão">
+                <div class="mat-tab-content">
+                    Previsão
+                </div>
+            </mat-tab>
+        </mat-tab-group>
     </div>
 </mat-card>
