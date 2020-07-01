@@ -21,15 +21,9 @@ export class InvestmentDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.params.id;
-
-    this.service.findById(id).subscribe(
-      result => {
-        this.investment = result;
-      },
-      err => {
-        this.snackBar.open(err.error, 'x', { duration: 2000 });
-      }
+    this.route.data.subscribe(
+      resp => this.investment = resp.investment,
+      err => console.log(err)
     );
   }
 

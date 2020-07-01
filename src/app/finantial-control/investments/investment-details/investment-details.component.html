@@ -28,7 +28,7 @@
         <mat-tab-group>
             <mat-tab label="Histórico">
                 <div class="mat-tab-content">
-                    <app-investment-detail-history></app-investment-detail-history>
+                    <app-investment-detail-history  [investmentId]="investment.id"></app-investment-detail-history>
                 </div>
             </mat-tab>
             <mat-tab label="Previsão">
