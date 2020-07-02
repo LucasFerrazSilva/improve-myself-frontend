@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { debounceTime } from 'rxjs/operators';
 import { DefaultDialogComponent } from 'src/app/util/default-dialog/default-dialog.component';
 import { HttpParams } from '@angular/common/http';
+import { Months } from 'src/app/util/month/months';
 
 @Component({
   selector: 'app-investment-detail-history',
@@ -21,9 +22,10 @@ export class InvestmentDetailHistoryComponent implements OnInit {
   debounce: Subject<string> = new Subject<string>();
   
   filters = [
-    {label: 'Mês', fieldName: 'month', value: ''},
     {label: 'Ano', fieldName: 'year', value: ''}
   ];
+
+  filterMonth = {label: 'Mês', fieldName: 'month', value: ''};
 
   @Input() investmentId;
   
@@ -34,6 +36,8 @@ export class InvestmentDetailHistoryComponent implements OnInit {
   defaultPageSize = 5;
   totalElements = 0;
 
+  months;
+
 
   constructor(
     private service: InvestmentDetailHistoryService,
@@ -43,6 +47,8 @@ export class InvestmentDetailHistoryComponent implements OnInit {
 
   
   ngOnInit(): void {
+    this.months = new Months().values;
+
     this.find();
 
     this.paginator.page.subscribe(page => this.find(page));
@@ -154,9 +160,18 @@ export class InvestmentDetailHistoryComponent implements OnInit {
       filter => params = params.append(filter.fieldName, filter.value)
     );
 
+    params = params.append('month', this.filterMonth.value);
     params = params.append('investmentId', this.investmentId);
 
+    console.log(params);
+
     return params;
+  }
+
+  getMonthLabel(month: number) {
+    const monthIndex = month - 1;
+
+    return this.months[monthIndex].label;
   }
 
 }
