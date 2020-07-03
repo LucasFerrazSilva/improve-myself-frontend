@@ -26,7 +26,9 @@ export class InvestmentFormDialogComponent implements OnInit {
     this.form = this.formBuilder.group({
       id: null,
       name: '',
-      amount: ''
+      amount: '',
+      expectedIncome: '',
+      monthlyInvestment: ''
     });
 
     if(this.data && this.data.id) {
@@ -35,7 +37,9 @@ export class InvestmentFormDialogComponent implements OnInit {
           this.form = this.formBuilder.group({
             id: result.id,
             name: result.name,
-            amount: result.amount
+            amount: result.amount,
+            expectedIncome: result.expectedIncome,
+            monthlyInvestment: result.monthlyInvestment
           });
         },
         err => {

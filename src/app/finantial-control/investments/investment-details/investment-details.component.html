@@ -2,24 +2,28 @@
 
 <mat-card class="content-body">
     <div id="investment-header">
+        <div class="buttons">
+            <button mat-stroked-button (click)="openDialog()">Editar</button>
+        </div>
+
         <div class="investment-header-field">
             <sub>Investimento</sub>
-            <p>{{investment.name}}</p>
+            <p>{{investment?.name}}</p>
         </div>
 
         <div class="investment-header-field">
             <sub>Total</sub>
-            <p>{{investment.amount}}</p>
+            <p>{{investment?.amount}}</p>
         </div>
 
         <div class="investment-header-field">
             <sub>Retorno Previsto</sub>
-            <p>{{investment.expectedIncome}}</p>
+            <p>{{investment?.expectedIncome}}</p>
         </div>
 
         <div class="investment-header-field">
             <sub>Investimento Mensal</sub>
-            <p>{{investment.monthlyInvestment}}</p>
+            <p>{{investment?.monthlyInvestment}}</p>
         </div>
     </div>
 
@@ -28,7 +32,7 @@
         <mat-tab-group>
             <mat-tab label="Histórico">
                 <div class="mat-tab-content">
-                    <app-investment-detail-history  [investmentId]="investment.id"></app-investment-detail-history>
+                    <app-investment-detail-history *ngIf="investment" [investmentId]="investment.id"></app-investment-detail-history>
                 </div>
             </mat-tab>
             <mat-tab label="Previsão">
